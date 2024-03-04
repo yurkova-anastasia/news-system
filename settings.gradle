@@ -1,0 +1,8 @@
+rootProject.name = 'news'
+
+include 'news-service'
+include 'user-service'
+include 'config-server'
+include 'starter-exception-handler'
+include 'starter-logging'
+include 'starter-cache'
