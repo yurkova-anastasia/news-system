@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: databases/news/migrations/v.1.0.0/2024_02_17__1_creating-tables-test.sql
+  - include:
+      file: databases/news/migrations/v.1.0.0/2024_02_17__2_creating-search-test.sql
+  - include:
+      file: databases/news/migrations/test-data/2024_02_17__1_filling-news-table-test.sql
+  - include:
+      file: databases/news/migrations/test-data/2024_02_17__2_filling-comments-table-test.sql

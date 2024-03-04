@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: test
+  application:
+    name: news
+  liquibase:
+    enabled: true
+    change-log: classpath:databases/news/migrations/db.changelog-master.yml
