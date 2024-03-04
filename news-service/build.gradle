@@ -1,0 +1,71 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.1'
+	id 'io.spring.dependency-management' version '1.1.4'
+	id 'io.freefair.lombok' version '8.4'
+}
+
+group = 'ru.clevertec'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-loader'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.cloud:spring-cloud-config-client:4.1.0'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.1.0'
+
+	implementation group: 'org.postgresql', name: 'postgresql', version: '42.5.1'
+	implementation 'org.liquibase:liquibase-core:4.23.1'
+
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2'
+
+	implementation 'org.slf4j:slf4j-api:2.0.11'
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.0.3'
+
+	compileOnly 'org.projectlombok:lombok:1.18.8'
+	annotationProcessor 'org.projectlombok:lombok:1.18.8'
+
+	implementation 'ru.clevertec:cache-starter:1.0.0'
+	implementation 'ru.clevertec:exception-handling-starter:1.0.0'
+	implementation 'ru.clevertec:logging-starter:1.0.0'
+
+	testImplementation 'org.springframework.security:spring-security-test:6.2.1'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation "org.springframework.cloud:spring-cloud-starter-contract-stub-runner:4.1.0"
+	testImplementation 'org.testcontainers:junit-jupiter:1.19.0'
+	testImplementation 'org.testcontainers:postgresql:1.19.0'
+	testImplementation 'org.liquibase:liquibase-core:4.23.1'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+	options.compilerArgs << "-parameters"
+}
+
+bootJar {
+	mainClass = 'ru.clevertec.news_service.NewsApp'
+}

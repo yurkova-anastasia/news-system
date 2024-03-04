@@ -1,0 +1,23 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres:5432/news
+    driver-class-name: org.postgresql.Driver
+    username: news_app
+    password: news_password
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show_sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  cache:
+    type: redis
+  data:
+    redis:
+      host: redis-news
+      port: 6379
+  client:
+    users:
+      url: user-service:8081/api/v1/auth/users

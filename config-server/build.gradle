@@ -1,0 +1,23 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.1'
+}
+
+group = 'ru.clevertec'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.cloud:spring-cloud-config-server:4.1.0'
+
+}
+
+test {
+	useJUnitPlatform()
+}
+
+bootJar {
+	mainClass = 'ru.clevertec.config_server.ConfigServerApp'
+}
