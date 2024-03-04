@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "cache.type",
+      "type": "java.lang.String",
+      "description": "The type of cache used."
+    },
+    {
+      "name": "cache.size",
+      "type": "java.lang.Integer",
+      "description": "The size of the used cache."
+    }
+  ]
+}
