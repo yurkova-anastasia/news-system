@@ -1,0 +1,18 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres:5432/users
+    driver-class-name: org.postgresql.Driver
+    username: users_app
+    password: users_password
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show_sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  security:
+    secret: 58559761c0efa86a625d5bd191b0cbeebb4a86a35a0076c9dfb548304341a645
+    issuer: clevertec
+    expiration: 21600000
