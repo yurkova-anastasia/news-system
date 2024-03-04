@@ -1,0 +1,97 @@
+services:
+  postgres:
+    image: postgres:latest
+    volumes:
+      - type: bind
+        source: ./create_db.sh
+        target: /docker-entrypoint-initdb.d/create_db.sh
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    container_name: postgres
+    healthcheck:
+      test: pg_isready -U postgres -d postgres
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - news_ntwrk
+
+  redis-news:
+    image: redis:latest
+    container_name: redis-news
+    restart: always
+    ports:
+      - 6379:6379
+    command: redis-server --save 20 1 --loglevel warning
+    networks:
+      - news_ntwrk
+
+  config-server:
+    container_name: config-server
+    image: config-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NAME_MODULE=config-server
+        - NAME_SERVICE=config-server
+        - FOLDER=config-server
+    restart: no
+    networks:
+      - news_ntwrk
+    ports:
+      - "8888:8888"
+
+  news-service:
+    container_name: news-service
+    image: news-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NAME_MODULE=news-service
+        - NAME_SERVICE=news-service
+        - FOLDER=news-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis-news:
+        condition: service_started
+      config-server:
+        condition: service_started
+    restart: no
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    networks:
+      - news_ntwrk
+    ports:
+      - "8080:8080"
+
+  user-service:
+    container_name: user-service
+    image: user-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NAME_MODULE=user-service
+        - NAME_SERVICE=user-service
+        - FOLDER=user-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      config-server:
+        condition: service_started
+    restart: no
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    networks:
+      - news_ntwrk
+    ports:
+      - "8081:8081"
+
+networks:
+  news_ntwrk:
